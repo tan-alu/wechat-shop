@@ -24,6 +24,8 @@ Page({
     await ml_showLoading()
     let res = await goods.limit(LIMIT).skip( _page * LIMIT).get()
    await ml_hideLoading()
+  //  停止下拉刷新
+  wx.stopPullDownRefresh()
     console.log(res)
     this.setData({
       // goods:[...goods,...res.data],
@@ -37,10 +39,20 @@ Page({
 
     // 没有更多数据的时候
     if(!this.data.hasMore){
-      // return console.log('没有更多数据了')
-      await ml_showToast()
+      await ml_showToast('没有更多数据了')
     }
     console.log('shuaxin')
+    this.loadListData()
+  },
+  // 下拉刷新
+  onPullDownRefresh(){
+    console.log('下拉刷新')
+    // 重置
+    this.setData({
+      goods:[],
+      _page:0,
+      hasMore:true
+    })
     this.loadListData()
   }
 })
