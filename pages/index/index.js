@@ -9,10 +9,22 @@ Page({
   data:{
     goods:[],
     _page:0,
-    hasMore:true//是否有更多数据可加载
+    hasMore:true,//是否有更多数据可加载
+    swipers:[]
   },
   onLoad(){
     this.loadListData()
+    this.loadSwipersData()
+  },
+  // 加载轮播图数据
+  // 请求访问量前三的商品
+  // 排序从高到低降序
+  async loadSwipersData(){
+    let res = await goods.orderBy('count','desc').limit(3).get()
+    console.log(res)
+    this.setData({
+      swipers:res.data
+    })
   },
   // 列表数据
   async loadListData(){
@@ -26,7 +38,7 @@ Page({
    await ml_hideLoading()
   //  停止下拉刷新
   wx.stopPullDownRefresh()
-    console.log(res)
+    // console.log(res)
     this.setData({
       // goods:[...goods,...res.data],
       goods:res.data,
