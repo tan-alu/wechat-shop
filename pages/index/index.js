@@ -21,7 +21,7 @@ Page({
   // 排序从高到低降序
   async loadSwipersData(){
     let res = await goods.orderBy('count','desc').limit(3).get()
-    console.log(res)
+    // console.log(res)
     this.setData({
       swipers:res.data
     })
@@ -53,12 +53,12 @@ Page({
     if(!this.data.hasMore){
       await ml_showToast('没有更多数据了')
     }
-    console.log('shuaxin')
+    // console.log('shuaxin')
     this.loadListData()
   },
   // 下拉刷新
   onPullDownRefresh(){
-    console.log('下拉刷新')
+    // console.log('下拉刷新')
     // 重置
     this.setData({
       goods:[],
