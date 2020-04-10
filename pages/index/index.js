@@ -2,6 +2,9 @@
 const db = wx.cloud.database()
 // 获取集合
 const goods= db.collection('goods')
+
+// 引入异步操作
+import {ml_showToast,ml_hideLoading,ml_showLoading} from '../../utils/asyncWX'
 Page({
   data:{
     goods:[],
@@ -17,7 +20,10 @@ Page({
     const LIMIT = 5
     let {_page}  = this.data
     // let {_page,goods}=this.data
+
+    await ml_showLoading()
     let res = await goods.limit(LIMIT).skip( _page * LIMIT).get()
+   await ml_hideLoading()
     console.log(res)
     this.setData({
       // goods:[...goods,...res.data],
@@ -27,11 +33,12 @@ Page({
     })
   },
   // 上拉刷新
-  onReachBottom(){
+ async onReachBottom(){
 
     // 没有更多数据的时候
     if(!this.data.hasMore){
-      return console.log('没有更多数据了')
+      // return console.log('没有更多数据了')
+      await ml_showToast()
     }
     console.log('shuaxin')
     this.loadListData()
